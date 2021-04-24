@@ -9,6 +9,15 @@ const expect = chai.expect
 // Lambdas lexically bind this and cannot access the Mocha context.
 // ========================================================
 
+// Imagine you just got a job with a MeasureIt.com. They want to create an app that measures everything. You'll need some methods that can return measurements.
+
+// * Area should return the area of a rectangle.
+// * Perimeter should return the perimeter of a rectangle.
+// * Should return the area of a circle with radius.
+// * Stretch: Test that any negative widths, breadths, or radii return null
+
+// You'll start by writing pending tests for these methods. Then write functions that make the tests pass.
+
 it("should say hello", function() {
   const hello = utils.sayHello()
   expect(hello).to.be.a("string")
@@ -27,6 +36,27 @@ it("should say hello", function() {
 // ========================================================
 
 
+it("area should equal w * h", function() {
+  const width = 10, height = 50, area = utils.area(width, height)
+  expect(width).to.be.a("number")
+  expect(height).to.be.a("number")
+  expect(area).to.be.a("number")
+  expect(area).to.equal(width * height)
+})
+
+it("should return perimeter", function() {
+  const width = 10, height = 50, perimeter= utils.perimeter(width, height)
+  expect(width).to.be.a("number")
+  expect(height).to.be.a("number")
+  expect(perimeter).to.be.a("number")
+  expect(perimeter).to.equal((width*2)+(height*2))
+})
+
+it("should return circle area", function() {
+  const radius = 10, circle_area = utils.circleArea(radius)
+  expect(radius).to.be.a("number")
+  expect(circle_area).to.equal(Math.PI * Math.pow(radius, 2))
+})
 
 
 // ========================================================
@@ -50,13 +80,39 @@ it("Should create a new (object) Item with name and price", function() {
   expect(item).to.have.property("quantity", 1)
 })
 
-it("Should return an array containing all items in cart")
+it("Should return an array containing all items in cart", function() {
+  const cart = utils.getShoppingCart()
+  expect(cart).to.be.a("array")
+  expect(cart.length).to.equal(0)
+})
 
-it("Should add a new item to the shopping cart")
 
-it("Should return the number of items in the cart")
+it("Should add a new item to the shopping cart", function() {
+  const item = utils.createItem("apple", 0.99)
+  utils.addItemToCart(item)
+  const cart = utils.getShoppingCart()
+  expect(cart.length).to.equal(1)
+  expect(cart).to.be.a("array")
 
-it("Should remove items from cart")
+})
+
+it("Should return the number of items in the cart", function() {
+  const item = utils.createItem("apple", 0.99)
+  utils.addItemToCart(item)
+  expect(utils.getNumItemsInCart()).to.equal(1)
+})
+
+it("Should remove items from cart", function() {
+  const item = utils.createItem("apple", 0.99)
+  utils.addItemToCart()
+  let cart = utils.getShoppingCart()
+  expect(cart).to.be.a("array")
+  expect(cart.length).to.equal(1)
+  utils.removeItemFromCart(item)
+  cart = utils.getShoppingCart()
+  expect(cart.length).to.equal(0)
+
+})
 
 // ========================================================
 // Stretch Challenges
